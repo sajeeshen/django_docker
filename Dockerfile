@@ -17,10 +17,11 @@ RUN apk --update add \
     jpeg-dev \
     zlib-dev
 
-RUN pip install -r /requirements.txt
+
 RUN mkdir /app
 
 WORKDIR /app
+RUN pip install -r /requirements.txt
 copy ./app /app
 
 RUN mkdir -p /vol/web/media
