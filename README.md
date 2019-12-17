@@ -40,4 +40,8 @@ For static files
 ```sh
 docker-compose -f docker-compose.prod.yml run web python manage.py collectstatic --noinput
 ```
+OR
+```sh
+docker exec DOCKERNAME /bin/sh -c "python manage.py collectstatic --noinput"
+```
 Once its done visit your website
