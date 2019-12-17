@@ -3,5 +3,7 @@
 Clone the repo to server and then run the following command
 
 
-Development :
+# Development :
+
+Run 'docker-compose run'
 
