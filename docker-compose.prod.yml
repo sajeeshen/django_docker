@@ -1,0 +1,51 @@
+version: "3"
+services:
+  web:
+    build: 
+      context: .
+    restart: always
+    env_file:
+      - ./.env
+    command: gunicorn --bind 0.0.0.0:8080 app.wsgi --reload
+      # gunicorn --bind 0.0.0.0:8080 app.wsgi --reload
+      # sh -c "
+      #   python manage.py collectstatic --no-input &&
+      #   python manage.py makemigrations &&
+      #   python manage.py migrate &&
+      #   gunicorn --bind 0.0.0.0:8080 app.wsgi --reload"
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=app
+      - DB_USER=postgres
+      - DB_PASS=supersecretpassword
+
+    links:
+      - redis:redis
+    depends_on:
+      - nginx
+      - db
+    volumes:
+      - ./media:/vol/web/media
+      - ./static:/vol/web/static
+  nginx:
+    image: "nginx"
+    restart: always
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./media:/vol/web/media
+      - ./static:/vol/web/static
+    ports:
+      - "80:80"
+  redis:
+    restart: always
+    image: redis:latest
+    expose:
+      - "6379"
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=app
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=supersecretpassword
