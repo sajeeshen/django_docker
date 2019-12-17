@@ -10,3 +10,10 @@ class Employee(models.Model):
 
     def __str__(self):
         return self.name
+
+class Post(models.Model):
+    """ Sample model for Posts"""
+    post_count = models.IntegerField()
+
+    def __str__(self):
+        return self.post_count
