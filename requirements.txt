@@ -5,3 +5,4 @@ django-redis
 gunicorn
 psycopg2
 celery
+django-celery-beat
