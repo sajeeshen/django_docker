@@ -68,6 +68,11 @@ services:
       - redis
     networks:
       - main
+    environment:
+      - DB_HOST=db
+      - DB_NAME=app
+      - DB_USER=postgres
+      - DB_PASS=supersecretpassword
   celery-beat:
     build: .
     restart: unless-stopped
@@ -79,6 +84,11 @@ services:
       - redis
     networks:
       - main
+    environment:
+      - DB_HOST=db
+      - DB_NAME=app
+      - DB_USER=postgres
+      - DB_PASS=supersecretpassword
 networks:
   main:
 volumes:

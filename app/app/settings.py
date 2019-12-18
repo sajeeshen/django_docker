@@ -91,9 +91,22 @@ DATABASES = {
         'NAME': os.environ.get('DB_NAME'),
         'USER': os.environ.get('DB_USER'),
         'PASSWORD': os.environ.get('DB_PASS'),
-        'PORT': 5432 
+        'PORT': 5432,
+        "ATOMIC_REQUESTS": True,
+        "CONN_MAX_AGE": 5000,
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'HOST': 'db',
+#         'NAME': 'app',
+#         'USER': 'postgres',
+#         'PASSWORD': 'supersecretpassword',
+#         'PORT': 5432 
+#     }
+# }
 
 
 CACHES = {
@@ -161,6 +174,8 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
+
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", None)
 
 CELERYD_HIJACK_ROOT_LOGGER = False  
 CELERYD_PREFETCH_MULTIPLIER = 1  
