@@ -7,12 +7,7 @@ services:
     env_file:
       - ./.env
     command: gunicorn --bind 0.0.0.0:8080 app.wsgi --reload
-      # gunicorn --bind 0.0.0.0:8080 app.wsgi --reload
-      # sh -c "
-      #   python manage.py collectstatic --no-input &&
-      #   python manage.py makemigrations &&
-      #   python manage.py migrate &&
-      #   gunicorn --bind 0.0.0.0:8080 app.wsgi --reload"
+
     ports:
       - "8080:8080"
     environment:
@@ -26,6 +21,9 @@ services:
     depends_on:
       - nginx
       - db
+      - celery
+    networks:
+      - main
     volumes:
       - ./media:/vol/web/media
       - ./static:/vol/web/static
@@ -38,14 +36,50 @@ services:
       - ./static:/vol/web/static
     ports:
       - "80:80"
+    networks:
+      - main
   redis:
     restart: always
     image: redis:latest
     expose:
       - "6379"
+    networks:
+      - main
   db:
     image: postgres
+    ports: 
+      - "5432:5432"
+    networks:
+      - main
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
     environment:
       - POSTGRES_DB=app
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=supersecretpassword
+  celery:
+    build: .
+    restart: unless-stopped
+    command: celery -A app worker -l info
+    # volumes:
+    #   - .:/app
+    depends_on:
+      - db
+      - redis
+    networks:
+      - main
+  celery-beat:
+    build: .
+    restart: unless-stopped
+    command: celery -A app beat -l info   
+    # volumes:
+    #   - .:/app
+    depends_on:
+      - db
+      - redis
+    networks:
+      - main
+networks:
+  main:
+volumes:
+  postgres_data:

@@ -91,6 +91,7 @@ DATABASES = {
         'NAME': os.environ.get('DB_NAME'),
         'USER': os.environ.get('DB_USER'),
         'PASSWORD': os.environ.get('DB_PASS'),
+        'PORT': 5432 
     }
 }
 
@@ -154,9 +155,13 @@ STATIC_ROOT = '/vol/web/static'
 
 STATIC_ROOT      =  os.path.join(BASE_DIR, "static") 
 
-CELERY_BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_BROKER_URL = 'redis://redis:6379'
+CELERY_RESULT_BACKEND = 'redis://redis:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
+
+CELERYD_HIJACK_ROOT_LOGGER = False  
+CELERYD_PREFETCH_MULTIPLIER = 1  
+CELERYD_MAX_TASKS_PER_CHILD = 1000  

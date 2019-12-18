@@ -10,9 +10,9 @@ def add(x, y):
     return x+y
 
 @task(name='add_post_count')
-def add_post_count(post):
-
-    obj = Post.objects.create(post_count=post)
-    print(created)
-    obj.save()
-    return post
+def add_post_count(a, b):
+    print("I am here in add post_count")
+    res = Post.objects.all()
+    print(res)
+    # obj = Post.objects.create(post_count=post)
+    return a+b

@@ -11,7 +11,7 @@ app.autodiscover_tasks()
 
 app.conf.beat_schedule = {
     'add-every-minute-contrab': {
-        'task': 'sum_two_numbers',
+        'task': 'add_post_count',
         'schedule': crontab(),
         'args': (10,30)
     }
