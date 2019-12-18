@@ -16,4 +16,4 @@ class Post(models.Model):
     post_count = models.IntegerField()
 
     def __str__(self):
-        return self.post_count
+        return str(self.post_count)

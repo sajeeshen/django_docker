@@ -13,6 +13,6 @@ def add(x, y):
 def add_post_count(a, b):
     print("I am here in add post_count")
     res = Post.objects.all()
-    print(res)
-    # obj = Post.objects.create(post_count=post)
+    print(len(res))
+    obj = Post.objects.create(post_count=a)
     return a+b

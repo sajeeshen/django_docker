@@ -92,8 +92,8 @@ DATABASES = {
         'USER': os.environ.get('DB_USER'),
         'PASSWORD': os.environ.get('DB_PASS'),
         'PORT': 5432,
-        "ATOMIC_REQUESTS": True,
-        "CONN_MAX_AGE": 5000,
+        # "ATOMIC_REQUESTS": True,
+        # "CONN_MAX_AGE": 5000,
     }
 }
 
@@ -166,7 +166,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = '/vol/web/media'
 STATIC_ROOT = '/vol/web/static'
 
-STATIC_ROOT      =  os.path.join(BASE_DIR, "static") 
+# STATIC_ROOT      =  os.path.join(BASE_DIR, "static") 
 
 CELERY_BROKER_URL = 'redis://redis:6379'
 CELERY_RESULT_BACKEND = 'redis://redis:6379'
@@ -175,8 +175,8 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 
-CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", None)
+# CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", None)
 
-CELERYD_HIJACK_ROOT_LOGGER = False  
-CELERYD_PREFETCH_MULTIPLIER = 1  
-CELERYD_MAX_TASKS_PER_CHILD = 1000  
+# CELERYD_HIJACK_ROOT_LOGGER = False  
+# CELERYD_PREFETCH_MULTIPLIER = 1  
+# CELERYD_MAX_TASKS_PER_CHILD = 1000  

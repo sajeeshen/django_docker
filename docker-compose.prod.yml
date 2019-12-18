@@ -6,16 +6,9 @@ services:
     restart: always
     env_file:
       - ./.env
-    command: gunicorn --bind 0.0.0.0:8080 app.wsgi --reload
-
+    command: gunicorn --bind 0.0.0.0:8000 app.wsgi --reload
     ports:
-      - "8080:8080"
-    environment:
-      - DB_HOST=db
-      - DB_NAME=app
-      - DB_USER=postgres
-      - DB_PASS=supersecretpassword
-
+      - "8000:8000"
     links:
       - redis:redis
     depends_on:
@@ -25,6 +18,7 @@ services:
     networks:
       - main
     volumes:
+      - ./app:/app
       - ./media:/vol/web/media
       - ./static:/vol/web/static
   nginx:
@@ -53,10 +47,8 @@ services:
       - main
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-    environment:
-      - POSTGRES_DB=app
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=supersecretpassword
+    env_file:
+      - ./.env
   celery:
     build: .
     restart: unless-stopped
@@ -68,11 +60,8 @@ services:
       - redis
     networks:
       - main
-    environment:
-      - DB_HOST=db
-      - DB_NAME=app
-      - DB_USER=postgres
-      - DB_PASS=supersecretpassword
+    env_file:
+      - ./.env
   celery-beat:
     build: .
     restart: unless-stopped
@@ -84,11 +73,8 @@ services:
       - redis
     networks:
       - main
-    environment:
-      - DB_HOST=db
-      - DB_NAME=app
-      - DB_USER=postgres
-      - DB_PASS=supersecretpassword
+    env_file:
+      - ./.env
 networks:
   main:
 volumes:
