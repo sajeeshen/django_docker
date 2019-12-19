@@ -12,10 +12,10 @@ class UserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('password must have atleast one special character.')
         return value
 
-    def to_internal_value(self, data):
-        """ Serializer should work even if the object is not correct """
-        user_data = data['user']
-        return super().to_internal_value(user_data)
+    # def to_internal_value(self, data):
+    #     """ Serializer should work even if the object is not correct """
+    #     user_data = data['user']
+    #     return super().to_internal_value(user_data)
 
     def validate(self, data):
         if data['first_name'] == data['last_name']:
