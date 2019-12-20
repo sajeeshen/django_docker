@@ -1,6 +1,25 @@
 version: "3"
 
-services:
+services:  
+  elasticsearch:
+    image: elasticsearch:7.5.1
+
+    volumes:
+      - ./data:/usr/share/elasticsearch/data
+    environment:
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - cluster.initial_master_nodes=es01
+      - bootstrap.memory_lock=true
+      # - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9200:9200"
+    # networks:
+    #   - elastic
   app:
     build:
       context: .
@@ -18,8 +37,10 @@ services:
     #   - DB_NAME=dev
     #   - DB_USER=postgres
     #   - DB_PASS=supersecretpassword
-    # depends_on:
-    #   - db
+    depends_on:
+      - elasticsearch
+
+
 
 #   db:
 #     image: postgres
@@ -30,6 +51,9 @@ services:
 #     volumes:
 #       - postgres_dev_data:/var/lib/postgresql/data/
 
-# volumes:
-#   postgres_dev_data:
+volumes:
+  data:
     
+# networks:
+#   elastic:
+#     driver: bridge
